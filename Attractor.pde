@@ -2,8 +2,6 @@
 // Daniel Shiffman
 // http://natureofcode.com
 
-// A class for a draggable attractive body in our world
-
 class Attractor {
   float mass;    // Mass, tied to size
   float G=6;       // Gravitational Constant
@@ -28,34 +26,19 @@ class Attractor {
   PVector subforce(Mover m, int k) {
     PVector force = PVector.sub(location, PVector.sub(m.location, PVector.mult(m.velocity, k/fRate)));   // Calculate direction of force
     float d = force.mag(); 
+    int n = 128;
+    float strength = 0;
     force.normalize();
-    float strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
+    //strength = (G*mass*m.mass)/(d*d);
+    for (int i=-n/2; i<n/2; i++) {
+      strength += (G * mass/n * m.mass) / ((d+d*i/n) * (d+d*i/n));     // Calculate gravitional force magnitude
+    }
     force.mult(strength); 
     return force;
   }
 
   PVector attract(Mover m) {
-    return PVector.add(subforce(m, 0), PVector.div(PVector.sub(subforce(m,-1), subforce(m,1)), 2));
-    //PVector force = PVector.sub(location, m.location);   // Calculate direction of force
-    //float d = force.mag(); 
-    //force.normalize();
-    //float strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
-    //force.mult(strength);                               // Get force vector --> magnitude * direction
-
-    //PVector force_prev = PVector.sub(location, PVector.sub(m.location, PVector.mult(m.velocity, 1/fRate))); 
-    //d = force_prev.mag();                              // Distance between objects
-    //force_prev.normalize(); 
-    //strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
-    //force_prev.mult(strength);                               // Get force vector --> magnitude * direction
-
-    //PVector force_next = PVector.add(location, PVector.sub(m.location, PVector.mult(m.velocity, 1/fRate)));   
-    //d = force_next.mag(); 
-    //force_next.normalize();
-    //strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
-    //force_next.mult(strength);                               // Get force vector --> magnitude * direction
-
-    //return PVector.add(force, PVector.div(PVector.sub(force_prev, force_next), 2));
-    ////return force_prev.add(force_next);
+    return PVector.add(subforce(m, 0), PVector.div(PVector.sub(subforce(m, -1), subforce(m, 1)), 2));
   }
 
   // Method to display
