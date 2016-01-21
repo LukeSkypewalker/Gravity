@@ -7,7 +7,7 @@ class Mover {
   PVector location;
   PVector velocity;
   PVector acceleration;
-  float mass;
+  float mass = 20;
   int radius;
   color col;
   
@@ -15,7 +15,7 @@ class Mover {
     location = new PVector(1000,500);
     velocity = new PVector(1,0);
     acceleration = new PVector(0,0);
-    mass = 1;
+    //mass = 1;
     radius=16;
     col = color(255,0,0);
   }
@@ -24,7 +24,7 @@ class Mover {
     location = loc;
     velocity = vel;
     acceleration = new PVector(0,0);
-    mass = 1;
+    //mass = 1;
     radius=16;
     col = color(255,255,0);
 
@@ -39,8 +39,8 @@ class Mover {
   }
   
   void applyForce(PVector force) {
-    PVector f = PVector.div(force,mass);
-    acceleration.add(f);
+    PVector a = PVector.div(force,mass);
+    acceleration.add(a);
   }
   
   void update() {

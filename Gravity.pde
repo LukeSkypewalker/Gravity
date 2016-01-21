@@ -4,15 +4,17 @@
 
 ArrayList<Mover> Movers = new ArrayList()  ;
 Attractor[] a = new Attractor[7];
-int n=2;
+int n=1;
+int fRate = 240;
   
 void setup() {
   size(1920, 1080);
-  Movers.add (new Mover(new PVector(0,10), new PVector(3,0)) ); 
+  Movers.add (new Mover(new PVector(700,400), new PVector(1,0)) ); 
   for (int i=0; i<n; i++) {
+    //a[i] = new Attractor(new PVector(random(width), random(height)), 20);
     a[i] = new Attractor();
   }
-  frameRate(120);
+  frameRate(fRate);
 }
 
 void draw() {

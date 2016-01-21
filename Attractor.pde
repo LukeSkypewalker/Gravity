@@ -6,35 +6,56 @@
 
 class Attractor {
   float mass;    // Mass, tied to size
-  float G;       // Gravitational Constant
+  float G=6;       // Gravitational Constant
   PVector location;   // Location
   boolean dragging = false; // Is the object being dragged?
   boolean rollover = false; // Is the mouse over the ellipse?
   PVector dragOffset;  // holds the offset for when object is clicked on
 
   Attractor() {
-    location = new PVector(width/2,height/2);
+    location = new PVector(width/2, height/2);
     //location = new PVector(random(width), random(height));
-    mass = 3;
-    G = 1;
-    dragOffset = new PVector(0.0,0.0);
+    mass = 60;
+    dragOffset = new PVector(0.0, 0.0);
   }
-  
-   Attractor(PVector loc, float m) {
+
+  Attractor(PVector loc, float m) {
     location = loc;
     mass = m;
-    G = 1;
-    dragOffset = new PVector(0.0,0.0);
+    dragOffset = new PVector(0.0, 0.0);
+  }
+
+  PVector subforce(Mover m, int k) {
+    PVector force = PVector.sub(location, PVector.sub(m.location, PVector.mult(m.velocity, k/fRate)));   // Calculate direction of force
+    float d = force.mag(); 
+    force.normalize();
+    float strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
+    force.mult(strength); 
+    return force;
   }
 
   PVector attract(Mover m) {
-    PVector force = PVector.sub(location,m.location);   // Calculate direction of force
-    float d = force.mag();                              // Distance between objects
-    d = constrain(d,5.0,25.0);                          // Limiting the distance to eliminate "extreme" results for very close or very far objects
-    force.normalize();                                  // Normalize vector (distance doesn't matter here, we just want this vector for direction)
-    float strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
-    force.mult(strength);     // Get force vector --> magnitude * direction
-    return force;
+    return PVector.add(subforce(m, 0), PVector.div(PVector.sub(subforce(m,-1), subforce(m,1)), 2));
+    //PVector force = PVector.sub(location, m.location);   // Calculate direction of force
+    //float d = force.mag(); 
+    //force.normalize();
+    //float strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
+    //force.mult(strength);                               // Get force vector --> magnitude * direction
+
+    //PVector force_prev = PVector.sub(location, PVector.sub(m.location, PVector.mult(m.velocity, 1/fRate))); 
+    //d = force_prev.mag();                              // Distance between objects
+    //force_prev.normalize(); 
+    //strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
+    //force_prev.mult(strength);                               // Get force vector --> magnitude * direction
+
+    //PVector force_next = PVector.add(location, PVector.sub(m.location, PVector.mult(m.velocity, 1/fRate)));   
+    //d = force_next.mag(); 
+    //force_next.normalize();
+    //strength = (G * mass * m.mass) / (d * d);     // Calculate gravitional force magnitude
+    //force_next.mult(strength);                               // Get force vector --> magnitude * direction
+
+    //return PVector.add(force, PVector.div(PVector.sub(force_prev, force_next), 2));
+    ////return force_prev.add(force_next);
   }
 
   // Method to display
@@ -44,13 +65,13 @@ class Attractor {
     stroke(0);
     if (dragging) fill (50);
     else if (rollover) fill(100);
-    else fill(175,200);
-    ellipse(location.x,location.y,mass*2,mass*2);
+    else fill(175, 200);
+    ellipse(location.x, location.y, mass*2, mass*2);
   }
 
   // The methods below are for mouse interaction
   void clicked(int mx, int my) {
-    float d = dist(mx,my,location.x,location.y);
+    float d = dist(mx, my, location.x, location.y);
     if (d < mass) {
       dragging = true;
       dragOffset.x = location.x-mx;
@@ -59,11 +80,10 @@ class Attractor {
   }
 
   void hover(int mx, int my) {
-    float d = dist(mx,my,location.x,location.y);
+    float d = dist(mx, my, location.x, location.y);
     if (d < mass) {
       rollover = true;
-    } 
-    else {
+    } else {
       rollover = false;
     }
   }
@@ -78,5 +98,4 @@ class Attractor {
       location.y = mouseY + dragOffset.y;
     }
   }
-
 }
