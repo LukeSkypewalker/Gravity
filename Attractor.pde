@@ -26,7 +26,7 @@ class Attractor {
   PVector subforce(Mover m, int k) {
     PVector force = PVector.sub(location, PVector.sub(m.location, PVector.mult(m.velocity, k/fRate)));   // Calculate direction of force
     float d = force.mag(); 
-    int n = 128;
+    //int n = 128;
     float strength = 0;
     force.normalize();
     strength = (G*mass*m.mass)/(d*d);

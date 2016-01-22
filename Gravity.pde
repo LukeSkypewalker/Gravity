@@ -4,7 +4,7 @@
 import java.util.*;
 
 ArrayList<Mover> Movers = new ArrayList();
-Player[] players = new Player[2];
+Player[] players = new Player[1];
 Attractor[] a = new Attractor[16];
 int n=5;
 int fRate = 60;
@@ -17,7 +17,7 @@ void setup() {
     //a[i] = new Attractor();
   }
   players[0] = new Player();
-  players[1] = new Player();
+  //players[1] = new Player();
   frameRate(fRate);
 }
 
@@ -26,13 +26,7 @@ void draw() {
   for (int i=0; i<n; i++) {
     a[i].drag();
     a[i].hover(mouseX, mouseY);
-
     a[i].display();
-  }
-  
-  for (int i=0; i<players.length; i++) {
-    players[i].update();
-    players[i].display();
   }
 
   Mover m;
@@ -50,6 +44,11 @@ void draw() {
     if ((m.location.x > width || m.location.x < 0) || (m.location.y > height || m.location.y < 0)) {
       it.remove();
     }
+  }
+
+  for (int i=0; i<players.length; i++) {
+    players[i].update();
+    players[i].display();
   }
 }
 
@@ -83,11 +82,20 @@ void mouseReleased() {
 
 
 void keyPressed() {
-  if (keyPressed){
-    switch (key){
-      case 'w': players[0].fwd(); break;
-      case 'a': players[0].left(); break;
-      case 'd': players[0].right(); break;
+  if (keyPressed) {
+    switch (key) {
+    case 'w': 
+      players[0].fwd(); 
+      break;
+    case 'a': 
+      players[0].left(); 
+      break;
+    case 'd': 
+      players[0].right(); 
+      break;
+    case 's': 
+      players[0].back(); 
+      break;
     }
   }
 }

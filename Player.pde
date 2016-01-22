@@ -21,25 +21,30 @@ class Player extends Mover {
     radius=16;
     col = color(255, 0, 0);
   }
-
+  
+  void update() {
+    location.add(direction.mult(throttle));
+  }
+  
   void fwd() {
     throttle++;
-    
+    direction.mult(throttle);
   }
 
   void back() {
     throttle--;
+    direction.mult(throttle);
   }
 
   void left() {
     direction.x=direction.x*0.707+direction.y*0.707;
     direction.y=-direction.x*0.707+direction.y*0.707;   
-    direction.normalize();
+    //direction.normalize();
   }
 
   void right() {
     direction.x=direction.x*0.707-direction.y*0.707;
     direction.y=direction.x*0.707+direction.y*0.707;    
-    direction.normalize();
+    //direction.normalize();
   }
 }

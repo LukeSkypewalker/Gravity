@@ -27,7 +27,6 @@ class Mover {
     //mass = 1;
     radius=16;
     col = color(255,255,0);
-
   }
   
   Mover(PVector loc, PVector vel, PVector a, float m, int r) {
