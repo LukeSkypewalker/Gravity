@@ -29,10 +29,10 @@ class Attractor {
     int n = 128;
     float strength = 0;
     force.normalize();
-    //strength = (G*mass*m.mass)/(d*d);
-    for (int i=-n/2; i<n/2; i++) {
-      strength += (G * mass/n * m.mass) / ((d+d*i/n) * (d+d*i/n));     // Calculate gravitional force magnitude
-    }
+    strength = (G*mass*m.mass)/(d*d);
+    //for (int i=-n/2; i<n/2; i++) {
+    //  strength += (G * mass/n * m.mass) / ((d+d*i/n) * (d+d*i/n));     // Calculate gravitional force magnitude
+    //}
     force.mult(strength); 
     return force;
   }

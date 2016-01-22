@@ -31,6 +31,7 @@ void draw() {
   }
   
   for (int i=0; i<players.length; i++) {
+    players[i].update();
     players[i].display();
   }
 
@@ -82,7 +83,7 @@ void mouseReleased() {
 
 
 void keyPressed() {
-  if (keyPressed()){
+  if (keyPressed){
     switch (key){
       case 'w': players[0].fwd(); break;
       case 'a': players[0].left(); break;
