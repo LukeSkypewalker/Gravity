@@ -13,7 +13,7 @@ class Attractor {
   Attractor() {
     location = new PVector(width/2, height/2);
     //location = new PVector(random(width), random(height));
-    mass = 60;
+    mass = 50;
     dragOffset = new PVector(0.0, 0.0);
   }
 
