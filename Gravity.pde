@@ -6,23 +6,23 @@ import java.util.*;
 ArrayList<Mover> Movers = new ArrayList();
 Player[] players = new Player[1];
 Attractor[] a = new Attractor[16];
-int n=5;
-int fRate = 60;
+int n=1;
+int fRate = 120;
 
 void setup() {
   size(1920, 1080);
-  Movers.add (new Mover(new PVector(600, 300), new PVector(1, 0)) ); 
-  for (int i=0; i<n; i++) {
-    a[i] = new Attractor(new PVector(random(width), random(height)), 20);
-    //a[i] = new Attractor();
-  }
-  players[0] = new Player();
+  Movers.add (new Mover(new PVector(950, 450), new PVector(1, 0)) ); 
+  a[0] = new Attractor(new PVector( width/2,height/2 ), 20); 
+  //for (int i=0; i<n; i++) {
+  //  a[i] = new Attractor(new PVector(random(width), random(height)), 20);
+  //}
+  //players[0] = new Player();
   //players[1] = new Player();
   frameRate(fRate);
 }
 
 void draw() {
-  background(255);
+  //background(255);
   for (int i=0; i<n; i++) {
     a[i].drag();
     a[i].hover(mouseX, mouseY);
@@ -46,10 +46,10 @@ void draw() {
     }
   }
 
-  for (int i=0; i<players.length; i++) {
-    players[i].update();
-    players[i].display();
-  }
+  //for (int i=0; i<players.length; i++) {
+  //  players[i].update();
+  //  players[i].display();
+  //}
 }
 
 boolean isCollision(Mover m, Attractor a) {

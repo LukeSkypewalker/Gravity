@@ -4,7 +4,7 @@
 
 class Attractor {
   float mass;    // Mass, tied to size
-  float G=6;       // Gravitational Constant
+  final float G=6;       // Gravitational Constant
   PVector location;   // Location
   boolean dragging = false; // Is the object being dragged?
   boolean rollover = false; // Is the mouse over the ellipse?
@@ -23,25 +23,22 @@ class Attractor {
     dragOffset = new PVector(0.0, 0.0);
   }
 
-  PVector subforce(Mover m, int k) {
-    PVector force = PVector.sub(location, PVector.sub(m.location, PVector.mult(m.velocity, k/fRate)));   // Calculate direction of force
-    float d = force.mag(); 
-    //int n = 128;
-    float strength = 0;
-    force.normalize();
-    strength = (G*mass*m.mass)/(d*d);
-    //for (int i=-n/2; i<n/2; i++) {
-    //  strength += (G * mass/n * m.mass) / ((d+d*i/n) * (d+d*i/n));     // Calculate gravitional force magnitude
-    //}
-    force.mult(strength); 
+  PVector leapFrogAttractMoverInPoint(Mover m, int k) {
+    PVector moverLocationK = PVector.sub(m.location, PVector.mult(m.velocity, k/fRate));
+    PVector force = PVector.sub(location, moverLocationK);
+    float r = force.mag(); 
+    float strength = (G*mass*m.mass)/(r*r); 
+    force.mult(strength/r); // div(r) equals to force.normalize();
     return force;
   }
 
   PVector attract(Mover m) {
-    return PVector.add(subforce(m, 0), PVector.div(PVector.sub(subforce(m, -1), subforce(m, 1)), 2));
+    return PVector.add(leapFrogAttractMoverInPoint(m, 0), PVector.div(PVector.sub(leapFrogAttractMoverInPoint(m, -1), leapFrogAttractMoverInPoint(m, 1)), 2));
+    //return leapFrogAttractMoverInPoint(m, 0);
   }
 
-  // Method to display
+
+
   void display() {
     ellipseMode(CENTER);
     strokeWeight(4);
@@ -52,7 +49,7 @@ class Attractor {
     ellipse(location.x, location.y, mass*2, mass*2);
   }
 
-  // The methods below are for mouse interaction
+
   void clicked(int mx, int my) {
     float d = dist(mx, my, location.x, location.y);
     if (d < mass) {
