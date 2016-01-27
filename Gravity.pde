@@ -12,6 +12,8 @@
 // inertial rotation 
 // simultanious shooting and rotation
 
+//TODO gravity for ship
+
 import java.util.*;
 
 ArrayList<Mover> Movers = new ArrayList();

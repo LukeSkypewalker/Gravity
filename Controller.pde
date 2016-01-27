@@ -14,10 +14,10 @@ class Controller {
 
     if (keyPressed) {
       if (keyCode == LEFT) {
-        ship.dir-=0.1;
+        ship.dir-=0.05;
       }
       if (keyCode == RIGHT) {
-        ship.dir+=0.1;
+        ship.dir+=0.05;
       }
       if (keyCode == UP) {         
         ship.acceleration.x = totalAcceleration * cos(ship.dir);  
