@@ -4,30 +4,36 @@
 import java.util.*;
 
 ArrayList<Mover> Movers = new ArrayList();
-Player[] players = new Player[1];
-Attractor[] a = new Attractor[16];
-int n=1;
-int fRate = 120;
+//SpaceShip [] ships = new SpaceShip[1];
+Star [] a = new Star[16];
+SpaceShip ship;
+int n=2;
+int fRate = 60;
 
 void setup() {
   size(1920, 1080);
-  Movers.add (new Mover(new PVector(950, 450), new PVector(1, 0)) ); 
-  a[0] = new Attractor(new PVector( width/2,height/2 ), 20); 
-  //for (int i=0; i<n; i++) {
-  //  a[i] = new Attractor(new PVector(random(width), random(height)), 20);
-  //}
-  //players[0] = new Player();
-  //players[1] = new Player();
+  
+  ship = new SpaceShip();
+  
+
+  Movers.add (new Mover(new PVector(600, 300), new PVector(1, 0)) ); 
+  for (int i=0; i<n; i++) {
+    a[i] = new Star(new PVector(random(width), random(height)), 20);
+  }
   frameRate(fRate);
 }
 
 void draw() {
-  //background(255);
+  background(0);
   for (int i=0; i<n; i++) {
     a[i].drag();
     a[i].hover(mouseX, mouseY);
     a[i].display();
   }
+
+  ship.update();
+  ship.drawShip();
+ 
 
   Mover m;
   Iterator<Mover> it = Movers.iterator(); 
@@ -53,11 +59,13 @@ void draw() {
 }
 
 boolean isCollision(Mover m, Attractor a) {
-  if ((pow((a.location.x-m.location.x), 2)+pow((a.location.y-m.location.y), 2)<pow((a.mass+m.radius), 2))) {
+  if ((sq(a.location.x-m.location.x)+sq(a.location.y-m.location.y)<sq(a.mass+m.radius))) {
     return true;
   }
   return false;
 }
+
+
 
 void mousePressed() {
   if (mouseButton == LEFT) {
@@ -76,26 +84,6 @@ void mouseReleased() {
   for (int i=0; i<n; i++) {
     if (pow((a[i].location.x-mouseX), 2)+pow((a[i].location.y-mouseY), 2)<pow((a[i].mass), 2)) {
       a[i].stopDragging();
-    }
-  }
-}
-
-
-void keyPressed() {
-  if (keyPressed) {
-    switch (key) {
-    case 'w': 
-      players[0].fwd(); 
-      break;
-    case 'a': 
-      players[0].left(); 
-      break;
-    case 'd': 
-      players[0].right(); 
-      break;
-    case 's': 
-      players[0].back(); 
-      break;
     }
   }
 }
