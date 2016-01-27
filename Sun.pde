@@ -10,7 +10,7 @@ public class Sun {
    this.y = y;
  }
   
- void draw() {
+ void display() {
    blend(img, 0, 0, img.width, img.height, int(x) - img.width/2, int (y) - img.height/2, img.width, img.height, ADD);
  }
   

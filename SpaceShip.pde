@@ -26,7 +26,7 @@ class SpaceShip extends Mover{
 
 
 
-  void drawShip() {
+  void display() {
     pushMatrix();
 
     // use the ship's locationition and dir when drawing it

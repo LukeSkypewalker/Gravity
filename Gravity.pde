@@ -32,8 +32,8 @@ void setup() {
 
 void draw() {
   background(0);
-  //starfield.draw();
-  //sun.draw();
+  //starfield.display();
+  //sun.display();
   
   for (int i=0; i<planets.length; i++) {
     planets[i].drag();
@@ -42,7 +42,7 @@ void draw() {
   }
 
   ships[0].update();
-  ships[0].drawShip();
+  ships[0].display();
 
 
   Mover m;
