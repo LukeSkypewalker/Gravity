@@ -9,11 +9,5 @@ class Bullet extends Mover{
     super(loc,vel,a,m);
   }
   
-  void display() {
-    stroke(0);
-    strokeWeight(2);
-    fill(col);
-    ellipse(location.x, location.y, radius, radius);
-  }
 
 }

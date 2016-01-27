@@ -11,6 +11,7 @@ class Controller {
   }
 
   void readKeys() {
+    ship.forcage = false;
 
     if (keyPressed) {
       if (keyCode == LEFT) {
@@ -22,9 +23,14 @@ class Controller {
       if (keyCode == UP) {         
         ship.acceleration.x = totalAcceleration * cos(ship.dir);  
         ship.acceleration.y = totalAcceleration * sin(ship.dir);
+        ship.forcage = true;
       }
       if (key == 32){     
         ship.fire();
+      }
+      if (key == 'a' ){     
+       ships[0] = new SpaceShip();
+       //movers.add(ships[0]);
       }
     }
   }

@@ -12,11 +12,10 @@
 // inertial rotation 
 // simultanious shooting and rotation
 
-//TODO gravity for ship
 
 import java.util.*;
 
-ArrayList<Mover> Movers = new ArrayList();
+ArrayList<Mover> movers = new ArrayList();
 SpaceShip [] ships = new SpaceShip[1];
 Planet [] planets = new Planet[5];
 //Starfield starfield;
@@ -30,10 +29,8 @@ void setup() {
 
   //starfield = new Starfield(100);
   //sun = new Sun(width/2, height/2, 100);
-  
+
   ships[0] = new SpaceShip();
-
-
   for (int i=0; i<planets.length; i++) {
     planets[i] = new Planet(new PVector(random(width), random(height)), 20);
   }
@@ -43,38 +40,65 @@ void draw() {
   background(0);
   //starfield.display();
   //sun.display();
-  
+  planets();
+  ships();
+  bullets();
+}
+
+
+
+
+
+void planets() {
   for (int i=0; i<planets.length; i++) {
     planets[i].drag();
     planets[i].hover(mouseX, mouseY);
     planets[i].display();
   }
+}
 
+void ships() {
+  PVector attForce = new PVector();
+  for (int i=0; i<planets.length; i++) {
+    attForce.add(planets[i].attract(ships[0]));
+  }
+  ships[0].applyForce(attForce);
   ships[0].update();
   ships[0].display();
+  if (isCollision(ships[0], planets)) {
+    ships[0] = new SpaceShip();
+  }
+}
 
-
+void bullets() {
   Mover m;
-  Iterator<Mover> it = Movers.iterator(); 
+  Iterator<Mover> it = movers.iterator(); 
   while (it.hasNext()) {
     m = it.next();
+    PVector attractionForce = new PVector();
     for (int i=0; i<planets.length; i++) {
-      PVector force = planets[i].attract(m);
-      m.applyForce(force);
-      m.update();
-      m.display();
-      //TODO multistar will crash the code
-      if (isCollision(m, planets[i])) it.remove();
+      attractionForce.add(planets[i].attract(m));
     }
-    if ((m.location.x > width || m.location.x < 0) || (m.location.y > height || m.location.y < 0)) {
+    m.applyForce(attractionForce);
+    m.update();
+    m.display();
+
+    if (isCollision(m, planets)) {
       it.remove();
     }
   }
 }
 
-boolean isCollision(Mover m, Attractor a) {
-  if ((sq(a.location.x-m.location.x)+sq(a.location.y-m.location.y)<sq(a.mass+m.radius))) {
+
+//TODO multistar crashs the code
+boolean isCollision(Mover m, Attractor [] a) {
+  if ((m.location.x > width || m.location.x < 0) || (m.location.y > height || m.location.y < 0)) {
     return true;
+  }
+  for (int i=0; i<planets.length; i++) {
+    if ((sq(a[i].location.x-m.location.x)+sq(a[i].location.y-m.location.y)<sq(a[i].mass+m.radius))) {
+      return true;
+    }
   }
   return false;
 }

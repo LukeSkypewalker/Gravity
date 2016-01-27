@@ -3,7 +3,9 @@ class SpaceShip extends Mover {
   private Controller controller;
   long cooldown = 200;
   long prevFire = 0;
-
+  float nullGravityModule = 0.5;
+  boolean forcage = false;
+  
   SpaceShip() {
     location = new PVector(width/2, height/2, 0);
     velocity = new PVector();
@@ -11,20 +13,21 @@ class SpaceShip extends Mover {
     controller = new Controller(this);
   }
 
-  void update() {
-    acceleration.set(0, 0, 0);                     
-    velocity.mult(0.99);
+  void update() {  
     controller.readKeys();
+    acceleration.mult(nullGravityModule);
+    velocity.mult(0.99);
     velocity.add(acceleration); 
     location.add(velocity);
+    acceleration.set(0, 0, 0);    
     wrapAroundTheScreen();
   }
 
   void fire() {
     if (millis()> prevFire + cooldown) {
-      PVector velocity = (new PVector (cos(dir), sin(dir))).mult(3);
-      Bullet b = new Bullet(new PVector(location.x, location.y), velocity);   
-      Movers.add(b); 
+      PVector velocity = (new PVector (cos(dir), sin(dir))).mult(8);
+      Mover b = new Mover(new PVector(location.x, location.y), velocity);   
+      movers.add(b); 
       prevFire = millis();
     }
   }
@@ -45,7 +48,7 @@ class SpaceShip extends Mover {
     triangle(-10, 20, 10, 20, 0, -20); 
 
     // if the ship is accelerationerating, draw the thruster
-    if (acceleration.mag() != 0) {
+    if (forcage) {
       // use a random color value so that the thruster is flickering 
       float thrusterCol = random(0, 255);
       fill(thrusterCol, thrusterCol/2, 0);
