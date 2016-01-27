@@ -1,6 +1,8 @@
-class SpaceShip extends Mover{
+class SpaceShip extends Mover {
 
   private Controller controller;
+  long cooldown = 200;
+  long prevFire = 0;
 
   SpaceShip() {
     location = new PVector(width/2, height/2, 0);
@@ -17,11 +19,14 @@ class SpaceShip extends Mover{
     location.add(velocity);
     wrapAroundTheScreen();
   }
-  
-  void fire(){
-    PVector velocity = (new PVector (cos(dir),sin(dir))).mult(3);
-    Bullet b = new Bullet(new PVector(location.x, location.y), velocity);   
-    Movers.add(b); 
+
+  void fire() {
+    if (millis()> prevFire + cooldown) {
+      PVector velocity = (new PVector (cos(dir), sin(dir))).mult(3);
+      Bullet b = new Bullet(new PVector(location.x, location.y), velocity);   
+      Movers.add(b); 
+      prevFire = millis();
+    }
   }
 
 

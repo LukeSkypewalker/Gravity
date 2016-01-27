@@ -5,6 +5,13 @@
 // Kinect ...
 
 
+//TODO control:
+// multiplayer
+// joystick
+// KINECT
+// inertial rotation 
+// simultanious shooting and rotation
+
 import java.util.*;
 
 ArrayList<Mover> Movers = new ArrayList();
