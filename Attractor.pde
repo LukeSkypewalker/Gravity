@@ -16,6 +16,10 @@ class Attractor {
     location = loc;
     mass = m;
   }
+  
+  void setLocation(PVector loc){
+    this.location=loc;
+  }
 
   PVector leapFrogAttractMoverInPoint(Mover m, int k) {
     PVector moverLocationK = PVector.sub(m.location, PVector.mult(m.velocity, k/fRate));

@@ -18,10 +18,10 @@ class SpaceShip extends Mover{
     wrapAroundTheScreen();
   }
   
-  Bullet fire(){
+  void fire(){
     PVector velocity = (new PVector (cos(dir),sin(dir))).mult(3);
     Bullet b = new Bullet(new PVector(location.x, location.y), velocity);   
-    return b; 
+    Movers.add(b); 
   }
 
 

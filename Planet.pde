@@ -1,10 +1,10 @@
-class Star extends Attractor {
+class Planet extends Attractor {
 
   boolean dragging = false; // Is the object being dragged?
   boolean rollover = false; // Is the mouse over the ellipse?
   PVector dragOffset = new PVector(0.0, 0.0);  // holds the offset for when object is clicked on
   
-  Star (PVector loc, float m) {
+  Planet (PVector loc, float m) {
     location = loc;
     mass = m;
     dragOffset = new PVector(0.0, 0.0);
