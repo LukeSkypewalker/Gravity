@@ -1,6 +1,6 @@
 class Controller {
   SpaceShip ship;
-  float totalAcceleration = 0.2; 
+  float totalAcceleration = 0.1; 
 
   Controller (SpaceShip s) {
     this.ship = s;
@@ -19,8 +19,8 @@ class Controller {
         ship.dir+=0.1;
       }
       if (keyCode == UP) {         
-        ship.acceleration.x = totalAcceleration * sin(ship.dir);  
-        ship.acceleration.y = -totalAcceleration * cos(ship.dir);
+        ship.acceleration.x = totalAcceleration * cos(ship.dir);  
+        ship.acceleration.y = totalAcceleration * sin(ship.dir);
       }
     }
   }

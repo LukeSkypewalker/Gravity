@@ -4,11 +4,10 @@
 
 class Attractor {
   float mass;   
-  float G=6; // Gravitational Constant
+  float G=60; // Gravitational Constant
   PVector location;
 
   Attractor() {
-
     location = new PVector(random(width), random(height));
     mass = 50;
   }

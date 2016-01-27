@@ -8,6 +8,7 @@ class Mover {
   PVector location;
   PVector velocity;
   PVector acceleration;
+  float dir=0; 
   float mass = 20;
   int radius=16;
   color col;

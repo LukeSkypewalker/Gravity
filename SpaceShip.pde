@@ -1,11 +1,5 @@
-//SpaceShip class inspired by the Tiago Martins 
-//http://www.openprocessing.org/sketch/88665
+class SpaceShip extends Mover{
 
-class SpaceShip {
-  private PVector location;   
-  private PVector velocity;  
-  private PVector acceleration; 
-  private float dir; 
   private Controller controller;
 
   SpaceShip() {
@@ -16,16 +10,19 @@ class SpaceShip {
   }
 
   void update() {
-
     acceleration.set(0, 0, 0);                     
     velocity.mult(0.99);
     controller.readKeys();
-    velocity.add(acceleration);  // add the current accelerationeration to the current velocity
-    location.add(velocity);    // add the current velocity to the current locationition
-    //wrapAroundTheScreen();
+    velocity.add(acceleration); 
+    location.add(velocity);
+    wrapAroundTheScreen();
   }
-
-
+  
+  Bullet fire(){
+    PVector velocity = (new PVector (cos(dir),sin(dir))).mult(3);
+    Bullet b = new Bullet(new PVector(location.x, location.y), velocity);   
+    return b; 
+  }
 
 
 
@@ -34,7 +31,7 @@ class SpaceShip {
 
     // use the ship's locationition and dir when drawing it
     translate(location.x, location.y);
-    rotate(dir);
+    rotate(dir+PI/2);
 
     noStroke();
 
