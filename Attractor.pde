@@ -28,13 +28,14 @@ class Attractor {
     PVector force = PVector.sub(location, moverLocationK);
     float r = force.mag(); 
     float strength = (G*mass*m.mass)/(r*r); 
-    force.mult(strength/r); // div(r) equals to force.normalize();
+    force.normalize();
+    force.mult(strength); //possible optimization - (strength/r) without force.normalize()
     return force;
   }
 
   PVector attract(Mover m) {
     return PVector.add(leapFrogAttractMoverInPoint(m, 0), PVector.div(PVector.sub(leapFrogAttractMoverInPoint(m, -1), leapFrogAttractMoverInPoint(m, 1)), 2));
-    //return leapFrogAttractMoverInPoint(m, 0);
+    //return leapFrogAttractMoverInPoint(m, 0); //without LeapFrog
   }
 
 

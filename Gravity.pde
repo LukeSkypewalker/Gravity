@@ -62,7 +62,7 @@ boolean isCollision(Mover m, Attractor a) {
 void mousePressed() {
   if (mouseButton == LEFT) {
     for (int i=0; i<n; i++) {
-      if (pow((a[i].location.x-mouseX), 2)+pow((a[i].location.y-mouseY), 2)<pow((a[i].mass), 2)) {
+      if (sq(a[i].location.x-mouseX)+sq(a[i].location.y-mouseY) < sq(a[i].mass) ) {
         a[i].clicked(mouseX, mouseY);
       }
     }
