@@ -10,7 +10,7 @@
 // KINECT
 // ? inertial rotation 
 // ? simultanious shooting and rotation
-boolean [] keyz = new boolean [5];
+boolean [] keyz = new boolean [6];
 
 import java.util.*;
 
@@ -26,7 +26,8 @@ void setup() {
   frameRate(fRate);
   smooth();
 
-  ships[0] = new SpaceShip(new PVector(100,100));
+  ships[0] = new SpaceShip(new PVector(100, 100));
+  //movers.add(ships[0]);
   //ships[1] = new SpaceShip(new PVector(1800,900));
   for (int i=0; i<planets.length; i++) {
     planets[i] = new Planet(new PVector(random(width), random(height)), 20);
@@ -34,18 +35,17 @@ void setup() {
 }
 
 void draw() {
-  //background(0);
-  //planets();
-  //ships();
-  //bullets();
-    background(80);
-  for (int i = 0; i < keyz.length; i++) {
-    if (keyz[i]) {
-      rect(i*100, width/2, 100, 50);
-    }
-  }
+  background(0);
+  planets();
+  ships();
+  bullets();
+  //background(80);
+  //for (int i = 0; i < keyz.length; i++) {
+  //if (keyz[i]) {
+  //  rect(i*100, width/2, 100, 50);
+  //}
 }
-
+//}
 
 
 
@@ -98,19 +98,19 @@ boolean isCollision(Mover m) {
   if ((m.location.x > width || m.location.x < 0) || (m.location.y > height || m.location.y < 0)) {
     return true;
   }
-  
+
   for (int i=0; i<planets.length; i++) {
     if ((sq(planets[i].location.x-m.location.x)+sq(planets[i].location.y-m.location.y) < sq(planets[i].mass+m.mass))) {
       return true;
     }
   }
-  
+
   for (int i=0; i<ships.length; i++) {
-   if ((sq(ships[i].location.x-m.location.x)+sq(ships[i].location.y-m.location.y) < sq(ships[i].mass+m.mass))) {
-     print("collision");
-     ships[0] = new SpaceShip();
-     return true;
-   }
+    if ((sq(ships[i].location.x-m.location.x)+sq(ships[i].location.y-m.location.y) < sq(ships[i].mass+m.mass))) {
+      print("collision");
+      ships[0] = new SpaceShip();
+      return true;
+    }
   }
   return false;
 }
@@ -122,4 +122,25 @@ boolean isCollisionShip(Mover m) {
     }
   }
   return false;
+}
+
+
+
+
+void keyPressed() {
+  if (key == 'a')  keyz[0] = true;
+  if (key == 'd')  keyz[1] = true;
+  if (key == 'w')  keyz[2] = true;
+  if (key == 's')  keyz[3] = true;
+  if (key == 'f')  keyz[4] = true;
+  if (key == 'q')  keyz[4] = true;
+}
+
+void keyReleased() {
+  if (key == 'a')  keyz[0] = false;
+  if (key == 'd')  keyz[1] = false;
+  if (key == 'w')  keyz[2] = false;
+  if (key == 's')  keyz[3] = false;
+  if (key == 'f')  keyz[4] = false;
+  if (key == 'q')  keyz[4] = true;
 }

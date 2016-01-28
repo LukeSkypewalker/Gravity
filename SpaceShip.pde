@@ -23,7 +23,7 @@ class SpaceShip extends Mover {
   void update() {  
     controller.readKeys();
     acceleration.mult(nullGravityModule);
-    velocity.mult(0.99);
+    //velocity.mult(0.99);
     velocity.add(acceleration); 
     location.add(velocity);
     acceleration.set(0, 0, 0);    

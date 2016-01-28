@@ -11,22 +11,6 @@ class Controller {
   }
 
 
-void keyPressed() {
-  if (key == 'a')  keyz[0] = true;
-  if (key == 'd')  keyz[1] = true;
-  if (key == 'w')  keyz[2] = true;
-  if (key == 's')  keyz[3] = true;
-  if (key == 'f')  keyz[4] = true;
-}
-
-void keyReleased() {
-  if (key == 'a')  keyz[0] = false;
-  if (key == 'd')  keyz[1] = false;
-  if (key == 'w')  keyz[2] = false;
-  if (key == 's')  keyz[3] = false;
-  if (key == 'f')  keyz[4] = false;
-}
-
 
   void readKeys() {
     ship.forcage = false;
@@ -45,6 +29,10 @@ void keyReleased() {
       ship.fire();
     }
     if (keyz[3] ) {     
+      ship.acceleration.x = -totalAcceleration * cos(ship.dir);  
+      ship.acceleration.y = -totalAcceleration * sin(ship.dir);
+    }
+    if (keyz[5]){
       ships[0] = new SpaceShip();
       //movers.add(ships[0]);
     }
