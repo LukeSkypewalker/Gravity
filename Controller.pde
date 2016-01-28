@@ -1,6 +1,6 @@
 class Controller {
   SpaceShip ship;
-  float totalAcceleration = 0.5; 
+  float totalAcceleration = 0.1; 
 
   Controller (SpaceShip s) {
     this.ship = s;
@@ -10,7 +10,48 @@ class Controller {
     this.totalAcceleration = a;
   }
 
+
+void keyPressed() {
+  if (key == 'a')  keyz[0] = true;
+  if (key == 'd')  keyz[1] = true;
+  if (key == 'w')  keyz[2] = true;
+  if (key == 's')  keyz[3] = true;
+  if (key == 'f')  keyz[4] = true;
+}
+
+void keyReleased() {
+  if (key == 'a')  keyz[0] = false;
+  if (key == 'd')  keyz[1] = false;
+  if (key == 'w')  keyz[2] = false;
+  if (key == 's')  keyz[3] = false;
+  if (key == 'f')  keyz[4] = false;
+}
+
+
   void readKeys() {
+    ship.forcage = false;
+    if (keyz[0]) {
+      ship.dir-=0.05;
+    }
+    if (keyz[1]) {
+      ship.dir+=0.05;
+    }
+    if (keyz[2]) {         
+      ship.acceleration.x = totalAcceleration * cos(ship.dir);  
+      ship.acceleration.y = totalAcceleration * sin(ship.dir);
+      ship.forcage = true;
+    }
+    if (keyz[4]) {     
+      ship.fire();
+    }
+    if (keyz[3] ) {     
+      ships[0] = new SpaceShip();
+      //movers.add(ships[0]);
+    }
+  }
+
+
+  void readKeys2() {
     ship.forcage = false;
 
     if (keyPressed) {
@@ -25,12 +66,12 @@ class Controller {
         ship.acceleration.y = totalAcceleration * sin(ship.dir);
         ship.forcage = true;
       }
-      if (key == 32){     
+      if (key == 32) {     
         ship.fire();
       }
-      if (key == 'a' ){     
-       ships[0] = new SpaceShip();
-       //movers.add(ships[0]);
+      if (key == 'a' ) {     
+        ships[0] = new SpaceShip();
+        //movers.add(ships[0]);
       }
     }
   }

@@ -3,7 +3,7 @@ class SpaceShip extends Mover {
   private Controller controller;
   long cooldown = 200;
   long prevFire = 0;
-  float nullGravityModule = 0.2;
+  float nullGravityModule = 1;
   boolean forcage = false;
   
   SpaceShip() {

@@ -10,14 +10,12 @@
 // KINECT
 // ? inertial rotation 
 // ? simultanious shooting and rotation
+boolean [] keyz = new boolean [5];
 
-import net.java.games.input.*;
-import org.gamecontrolplus.*;
-import org.gamecontrolplus.gui.*;
 import java.util.*;
 
 ArrayList<Mover> movers = new ArrayList();
-SpaceShip [] ships = new SpaceShip[2];
+SpaceShip [] ships = new SpaceShip[1];
 Planet [] planets = new Planet[5];
 //Starfield starfield;
 //Sun sun;
@@ -29,17 +27,23 @@ void setup() {
   smooth();
 
   ships[0] = new SpaceShip(new PVector(100,100));
-  ships[1] = new SpaceShip(new PVector(1800,900));
+  //ships[1] = new SpaceShip(new PVector(1800,900));
   for (int i=0; i<planets.length; i++) {
     planets[i] = new Planet(new PVector(random(width), random(height)), 20);
   }
 }
 
 void draw() {
-  background(0);
-  planets();
-  ships();
-  bullets();
+  //background(0);
+  //planets();
+  //ships();
+  //bullets();
+    background(80);
+  for (int i = 0; i < keyz.length; i++) {
+    if (keyz[i]) {
+      rect(i*100, width/2, 100, 50);
+    }
+  }
 }
 
 
