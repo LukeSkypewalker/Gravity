@@ -1,6 +1,6 @@
 class Controller {
   SpaceShip ship;
-  float totalAcceleration = 0.1; 
+  float totalAcceleration = 0.5; 
 
   Controller (SpaceShip s) {
     this.ship = s;

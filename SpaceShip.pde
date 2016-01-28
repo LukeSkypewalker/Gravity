@@ -3,11 +3,18 @@ class SpaceShip extends Mover {
   private Controller controller;
   long cooldown = 200;
   long prevFire = 0;
-  float nullGravityModule = 0.5;
+  float nullGravityModule = 0.2;
   boolean forcage = false;
   
   SpaceShip() {
     location = new PVector(width/2, height/2, 0);
+    velocity = new PVector();
+    acceleration = new PVector();
+    controller = new Controller(this);
+  }
+  
+  SpaceShip(PVector loc) {
+    location = loc;
     velocity = new PVector();
     acceleration = new PVector();
     controller = new Controller(this);
@@ -25,8 +32,8 @@ class SpaceShip extends Mover {
 
   void fire() {
     if (millis()> prevFire + cooldown) {
-      PVector velocity = (new PVector (cos(dir), sin(dir))).mult(8);
-      Mover b = new Mover(new PVector(location.x, location.y), velocity);   
+      PVector direction = (new PVector (cos(dir), sin(dir)));
+      Mover b = new Mover((new PVector(location.x, location.y)).add(PVector.mult(direction,30)), PVector.mult(direction,8));   
       movers.add(b); 
       prevFire = millis();
     }
@@ -44,7 +51,7 @@ class SpaceShip extends Mover {
     noStroke();
 
     // draw the ship as a white triangle
-    fill(255);  
+    fill(255,255,0);  
     triangle(-10, 20, 10, 20, 0, -20); 
 
     // if the ship is accelerationerating, draw the thruster

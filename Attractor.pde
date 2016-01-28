@@ -3,7 +3,7 @@
 // http://natureofcode.com
 
 class Attractor {
-  float mass;   
+  float mass;  
   float G=60; // Gravitational Constant
   PVector location;
 

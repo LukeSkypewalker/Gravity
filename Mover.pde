@@ -9,7 +9,7 @@ class Mover {
   PVector velocity;
   PVector acceleration;
   float dir=0; 
-  float mass = 20;
+  float mass = 16;
   int radius=16;
   color col;
 
@@ -24,7 +24,7 @@ class Mover {
     location = loc;
     velocity = vel;
     acceleration = new PVector(0, 0);
-    col = color(255, 255, 0);
+    col = color(255, 128, 0);
   }
 
   Mover(PVector loc, PVector vel, PVector a, float m) {
