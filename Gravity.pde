@@ -16,12 +16,16 @@ import java.util.*;
 
 ArrayList<Mover> movers = new ArrayList();
 SpaceShip [] ships = new SpaceShip[1];
-Planet [] planets = new Planet[5];
+Planet[] planets = new Planet[5];
 //Starfield starfield;
 //Sun sun;
 int fRate = 60;
 
+NetworkHandler networkHandler;
+
 void setup() {
+  networkHandler = new NetworkHandler(this, "127.0.0.1", 12321);
+  
   size(1920, 1080, P2D);
   frameRate(fRate);
   smooth();
@@ -39,6 +43,9 @@ void draw() {
   planets();
   ships();
   bullets();
+  if (networkHandler.update()) {
+    planets = networkHandler.getPlanets();
+  }
   //background(80);
   //for (int i = 0; i < keyz.length; i++) {
   //if (keyz[i]) {
