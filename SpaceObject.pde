@@ -1,37 +1,23 @@
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
-
-
-class Mover {
+class SpaceObject {
 
   PVector location;
   PVector velocity;
   PVector acceleration;
-  float dir=0; 
+  float dir = 0; 
   float mass = 16;
-  int radius=16;
-  color col;
+  int radius = 16;
+  color col = color(255, 0, 0);
 
-  Mover() {
-    location = new PVector(1000, 500);
-    velocity = new PVector(1, 0);
+  SpaceObject() {
+    location = new PVector(random(width), random(height));
+    velocity = new PVector(0, 0);
     acceleration = new PVector(0, 0);
-    col = color(255, 0, 0);
   }
 
-  Mover(PVector loc, PVector vel) {
+  SpaceObject(PVector loc, PVector vel) {
     location = loc;
     velocity = vel;
     acceleration = new PVector(0, 0);
-    col = color(255, 128, 0);
-  }
-
-  Mover(PVector loc, PVector vel, PVector a, float m) {
-    location = loc;
-    velocity = vel;
-    acceleration = a;
-    mass = m;
   }
 
   void applyForce(PVector force) {
@@ -46,7 +32,7 @@ class Mover {
   }
 
   void display() {
-    stroke(0);
+    stroke(255);
     strokeWeight(2);
     fill(col);
     ellipse(location.x, location.y, radius, radius);

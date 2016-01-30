@@ -1,13 +1,8 @@
-class Bullet extends Mover{
+class Bullet extends SpaceObject{
 
  
   Bullet(PVector loc, PVector vel) {
     super(loc,vel);
   }
-
-  Bullet(PVector loc, PVector vel, PVector a, float m) {
-    super(loc,vel,a,m);
-  }
-  
 
 }

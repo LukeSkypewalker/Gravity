@@ -1,6 +1,6 @@
 // SkolTech Augmented Reality Marathon
 // ...
-// Attractor and Mover classes inspired by Daniel Shiffman - http://natureofcode.com
+// Attractor and SpaceObject classes inspired by Daniel Shiffman - http://natureofcode.com
 // SpaceShip class by Tiago Martins - http://www.openprocessing.org/sketch/88665
 // Kinect ...
 
@@ -10,28 +10,28 @@
 // KINECT
 // ? inertial rotation 
 // ? simultanious shooting and rotation
-boolean [] keyz = new boolean [6];
 
 import java.util.*;
 
-ArrayList<Mover> movers = new ArrayList();
-SpaceShip [] ships = new SpaceShip[1];
+ArrayList<SpaceObject> spaceObjects = new ArrayList();
+SpaceShip [] ships = new SpaceShip[4];
 Planet[] planets = new Planet[5];
 //Starfield starfield;
 //Sun sun;
 int fRate = 60;
+boolean [][] keyz = new boolean [2][6];
 
 NetworkHandler networkHandler;
 
 void setup() {
-  networkHandler = new NetworkHandler(this, "127.0.0.1", 12321);
-  
+  //networkHandler = new NetworkHandler(this, "127.0.0.1", 12321);
+
   size(1920, 1080, P2D);
   frameRate(fRate);
   smooth();
-
   ships[0] = new SpaceShip(new PVector(100, 100));
-  //movers.add(ships[0]);
+  ships[1] = new SpaceShip(new PVector(1600, 800));
+  //spaceObjects.add(ships[0]);
   //ships[1] = new SpaceShip(new PVector(1800,900));
   for (int i=0; i<planets.length; i++) {
     planets[i] = new Planet(new PVector(random(width), random(height)), 20);
@@ -43,21 +43,14 @@ void draw() {
   planets();
   ships();
   bullets();
-  if (networkHandler.update()) {
-    planets = networkHandler.getPlanets();
-  }
-  //background(80);
-  //for (int i = 0; i < keyz.length; i++) {
-  //if (keyz[i]) {
-  //  rect(i*100, width/2, 100, 50);
-  //}
 }
-//}
-
 
 
 
 void planets() {
+  //if (networkHandler.update()) {
+  //  planets = networkHandler.getPlanets();
+  //}
   for (int i=0; i<planets.length; i++) {
     planets[i].drag();
     planets[i].hover(mouseX, mouseY);
@@ -67,22 +60,24 @@ void planets() {
 
 void ships() {
   for (int j=0; j<ships.length; j++) {
-    PVector attForce = new PVector();
-    for (int i=0; i<planets.length; i++) {
-      attForce.add(planets[i].attract(ships[j]));
-    }
-    ships[j].applyForce(attForce);
-    ships[j].update();
-    ships[j].display();
-    if (isCollisionShip(ships[j])) {
-      ships[j] = new SpaceShip();
+    if (ships[j] != null) {
+      PVector attForce = new PVector();
+      for (int i=0; i<planets.length; i++) {
+        attForce.add(planets[i].attract(ships[j]));
+      }
+      ships[j].applyForce(attForce);
+      ships[j].update();
+      ships[j].display();
+      if (isCollisionShip(ships[j])) {
+        ships[j] = new SpaceShip();
+      }
     }
   }
 }
 
 void bullets() {
-  Mover m;
-  Iterator<Mover> it = movers.iterator(); 
+  SpaceObject m;
+  Iterator<SpaceObject> it = spaceObjects.iterator(); 
   while (it.hasNext()) {
     m = it.next();
     PVector attractionForce = new PVector();
@@ -101,7 +96,7 @@ void bullets() {
 
 
 //TODO multistar crashs the code
-boolean isCollision(Mover m) {
+boolean isCollision(SpaceObject m) {
   if ((m.location.x > width || m.location.x < 0) || (m.location.y > height || m.location.y < 0)) {
     return true;
   }
@@ -113,41 +108,22 @@ boolean isCollision(Mover m) {
   }
 
   for (int i=0; i<ships.length; i++) {
-    if ((sq(ships[i].location.x-m.location.x)+sq(ships[i].location.y-m.location.y) < sq(ships[i].mass+m.mass))) {
-      print("collision");
-      ships[0] = new SpaceShip();
-      return true;
+    if (ships[i] != null) {
+      if ((sq(ships[i].location.x-m.location.x)+sq(ships[i].location.y-m.location.y) < sq(ships[i].mass+m.mass))) {
+        print("collision");
+        ships[0] = new SpaceShip();
+        return true;
+      }
     }
   }
   return false;
 }
 
-boolean isCollisionShip(Mover m) {
+boolean isCollisionShip(SpaceObject m) {
   for (int i=0; i<planets.length; i++) {
     if ((sq(planets[i].location.x-m.location.x)+sq(planets[i].location.y-m.location.y) < sq(planets[i].mass+m.mass))) {
       return true;
     }
   }
   return false;
-}
-
-
-
-
-void keyPressed() {
-  if (key == 'a')  keyz[0] = true;
-  if (key == 'd')  keyz[1] = true;
-  if (key == 'w')  keyz[2] = true;
-  if (key == 's')  keyz[3] = true;
-  if (key == 'f')  keyz[4] = true;
-  if (key == 'q')  keyz[4] = true;
-}
-
-void keyReleased() {
-  if (key == 'a')  keyz[0] = false;
-  if (key == 'd')  keyz[1] = false;
-  if (key == 'w')  keyz[2] = false;
-  if (key == 's')  keyz[3] = false;
-  if (key == 'f')  keyz[4] = false;
-  if (key == 'q')  keyz[4] = true;
 }

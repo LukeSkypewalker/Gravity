@@ -1,18 +1,21 @@
-class SpaceShip extends Mover {
+class SpaceShip extends SpaceObject {
 
   private Controller controller;
-  long cooldown = 200;
-  long prevFire = 0;
+  long prevFireTime = 0;
+  long fireCooldown = 200;
   float nullGravityModule = 1;
+  float accelerationModule = 0.05; 
   boolean forcage = false;
-  
+  //boolean isActive = false;
+
+
   SpaceShip() {
     location = new PVector(width/2, height/2, 0);
     velocity = new PVector();
     acceleration = new PVector();
     controller = new Controller(this);
   }
-  
+
   SpaceShip(PVector loc) {
     location = loc;
     velocity = new PVector();
@@ -31,11 +34,11 @@ class SpaceShip extends Mover {
   }
 
   void fire() {
-    if (millis()> prevFire + cooldown) {
+    if (millis()> prevFireTime + fireCooldown) {
       PVector direction = (new PVector (cos(dir), sin(dir)));
-      Mover b = new Mover((new PVector(location.x, location.y)).add(PVector.mult(direction,30)), PVector.mult(direction,8));   
-      movers.add(b); 
-      prevFire = millis();
+      SpaceObject b = new SpaceObject((new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), PVector.mult(direction, 8));   
+      spaceObjects.add(b); 
+      prevFireTime = millis();
     }
   }
 
@@ -51,7 +54,7 @@ class SpaceShip extends Mover {
     noStroke();
 
     // draw the ship as a white triangle
-    fill(255,255,0);  
+    fill(255, 255, 0);  
     triangle(-10, 20, 10, 20, 0, -20); 
 
     // if the ship is accelerationerating, draw the thruster
@@ -63,5 +66,9 @@ class SpaceShip extends Mover {
     }
 
     popMatrix();
+  }
+
+  void setaccelerationModule(float a) {
+    accelerationModule = a;
   }
 }
