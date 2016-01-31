@@ -14,21 +14,18 @@ class JoystickController extends Controller {
   ControlButton button;
   ControlSlider Y, Z;
 
-  JoystickController(SpaceShip s, String joystickName, String buttonName, int y, int z) {
-    super(s);
+  JoystickController(String joystickName, String buttonName, int y, int z) {
     device = control.getDevice(joystickName);
     button = device.getButton(buttonName);
     Y = device.getSlider(y);
     Z = device.getSlider(z);
     Y.setTolerance(0.1);
-    Z.setTolerance(0.1);;
+    Z.setTolerance(0.1);
   }
 
   void readController() {
     turn=Z.getValue();
-    throtle=-Y.getValue();
+    throttle=-Y.getValue();
     isFire=button.pressed();
-    super.readController();        
   }
-  
 }

@@ -9,17 +9,13 @@ class SpaceShip extends SpaceObject {
   PVector startLocation;
   //boolean isActive = false;
 
-  SpaceShip() {  
-    location = new PVector(width/2, height/2, 0);
-    velocity = new PVector();
-    acceleration = new PVector();
-  }
-
-  SpaceShip(PVector loc) {
+  SpaceShip(Controller controller, PVector loc, color col) {
+    this.controller = controller;
     startLocation = new PVector (loc.x, loc.y);
     location = new PVector (loc.x, loc.y);
     velocity = new PVector();
     acceleration = new PVector();
+    this.col = col;
   }
 
   void update() {  
@@ -27,7 +23,7 @@ class SpaceShip extends SpaceObject {
     for (int i=0; i<planets.length; i++) {
       attForce.add(planets[i].attract(this));
     }
-    controller.readController();
+    readController();
     applyForce(attForce);
 
     if (isCollision()) {
@@ -41,10 +37,25 @@ class SpaceShip extends SpaceObject {
     super.update();
   }
 
+  void readController() {
+    controller.readController();
+    dir+= controller.turn*0.05;
+    acceleration.x = controller.throttle * accelerationModule * cos(dir);  
+    acceleration.y = controller.throttle * accelerationModule * sin(dir); 
+    forcage = controller.throttle > 0 ? true : false;
+    if (controller.isFire) { 
+      fire();
+    }
+    if (controller.isRestart) {
+      resetShip();
+    }
+  }
+
   void fire() {
     if (millis()> prevFireTime + fireCooldown) {
       PVector direction = (new PVector (cos(dir), sin(dir)));
-      Bullet b = new Bullet((new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), PVector.mult(direction, 10));   
+      Bullet b = new Bullet( (new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), 
+        PVector.mult(direction, 8+velocity.mag()) );   
       spaceObjects.add(b); 
       prevFireTime = millis();
     }
@@ -88,13 +99,13 @@ class SpaceShip extends SpaceObject {
     acceleration.set(0, 0);
     dir = 0;
   }
-  
+
   boolean isCollision() {
-  for (int i=0; i<planets.length; i++) {
-    if ((sq(planets[i].location.x-location.x)+sq(planets[i].location.y-location.y) < sq(planets[i].mass+mass))) {
-      return true;
+    for (int i=0; i<planets.length; i++) {
+      if ((sq(planets[i].location.x-location.x)+sq(planets[i].location.y-location.y) < sq(planets[i].mass+mass))) {
+        return true;
+      }
     }
+    return false;
   }
-  return false;
-}
 }

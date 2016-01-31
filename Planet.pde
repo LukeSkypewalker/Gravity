@@ -5,7 +5,7 @@ class Planet extends Attractor {
   PVector dragOffset = new PVector(0.0, 0.0);  // holds the offset for when object is clicked on
 
   Planet (PVector loc, float m) {
-    super(loc,m);
+    super(loc, m);
     dragOffset = new PVector(0.0, 0.0);
   }
 
@@ -46,5 +46,22 @@ class Planet extends Attractor {
       location.x = mouseX + dragOffset.x;
       location.y = mouseY + dragOffset.y;
     }
+  }
+}
+
+
+void mousePressed() {
+  if (mouseButton == LEFT) {
+    for (int i=0; i<planets.length; i++) {
+      if (sq(planets[i].location.x-mouseX)+sq(planets[i].location.y-mouseY) < sq(planets[i].mass) ) {
+        planets[i].clicked(mouseX, mouseY);
+      }
+    }
+  }
+}
+
+void mouseReleased() {
+  for (int i=0; i<planets.length; i++) {
+    planets[i].stopDragging();
   }
 }

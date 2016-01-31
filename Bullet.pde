@@ -27,7 +27,6 @@ class Bullet extends SpaceObject {
     for (int i=0; i<ships.length; i++) {
       if (ships[i] != null) {
         if ((sq(ships[i].location.x-location.x)+sq(ships[i].location.y-location.y) < sq(ships[i].mass+mass))) {
-          print("collision");
           ships[i].resetShip();
           return true;
         }

@@ -9,7 +9,7 @@
 // KINECT
 // ? inertial rotation 
 
-// does multistar(couple stars in same point) crashed the code ?
+// does multistar(a couple of stars in same point) still crashes the code ?
 
 import java.util.*;
 
@@ -20,7 +20,6 @@ SpaceShip [] ships = new SpaceShip[2];
 Planet[] planets = new Planet[1];
 //Starfield starfield;
 //Sun sun;
-
 int fRate = 60;
 
 
@@ -30,18 +29,12 @@ void setup() {
   size(1920, 1080, P2D);
   frameRate(fRate);
   smooth();
-  ships[0] = new SpaceShip( new PVector(100, 100));
-  ships[0].setController(new KeyboardController(ships[0]));
-  ships[1] = new SpaceShip(new PVector(1600, 80));
-  ships[1].setController(new KeyboardController(ships[1]));
-  ships[1].col = color (0, 255, 255);
-  //ships[2] = new SpaceShip(new PVector(100, 800));
-  //ships[2].setController(new JoystickController((ships[2]),"Controller (XBOX 360 For Windows)", "Button 0", 4, 1));  //0, 1
-  //ships[2].col = color (0,255,0);
-  //ships[3] = new SpaceShip(new PVector(1600, 800));
-  //ships[3].setController(new JoystickController((ships[3]), "Defender COBRA M5 USB Joystick", "Button 1", 0, 1));
-  //ships[3].col = color (255,128,0);
-  //spaceObjects.add(ships[0]);
+  ships[0] = new SpaceShip(new KeyboardControllerCURSOR(), new PVector(100, 100), color(255, 0, 255));
+  ships[1] = new SpaceShip(new KeyboardControllerWASD(), new PVector(1600, 80), color (0, 255, 255));
+  //ships[2] = new SpaceShip(new JoystickController("Controller (XBOX 360 For Windows)", "Button 0", 4, 1), 
+  // new PVector(100, 800), color (0, 255, 0));
+  //ships[3] = new SpaceShip(new JoystickController("Defender COBRA M5 USB Joystick", "Button 1", 0, 1), 
+  // new PVector(1600, 800), color (255, 128, 0));
 
   //sun = new Sun(width/2, height/2, 100);
   //starfield = new Starfield(100);

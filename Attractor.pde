@@ -10,8 +10,8 @@ class Attractor extends SpaceObject {
     location = loc;
     mass = m;
   }
-  
-  void setLocation(PVector loc){
+
+  void setLocation(PVector loc) {
     this.location=loc;
   }
 

@@ -44,8 +44,8 @@ class SpaceObject {
     if (location.y < 0) location.y += height;
     if (location.y > height) location.y = 0;
   }
-  
-  boolean isCollision(){
+
+  boolean isCollision() {
     return false;
   };
 }
