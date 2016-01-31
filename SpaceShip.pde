@@ -23,18 +23,28 @@ class SpaceShip extends SpaceObject {
   }
 
   void update() {  
+    PVector attForce = new PVector();
+    for (int i=0; i<planets.length; i++) {
+      attForce.add(planets[i].attract(this));
+    }
+    controller.readController();
+    applyForce(attForce);
+
+    if (isCollision()) {
+      resetShip();
+      return;
+    }  
+
     acceleration.mult(nullGravityModule);
     //velocity.mult(0.99);
-    velocity.add(acceleration); 
-    location.add(velocity);
-    acceleration.set(0, 0, 0);    
     wrapAroundTheScreen();
+    super.update();
   }
 
   void fire() {
     if (millis()> prevFireTime + fireCooldown) {
       PVector direction = (new PVector (cos(dir), sin(dir)));
-      SpaceObject b = new SpaceObject((new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), PVector.mult(direction, 10));   
+      Bullet b = new Bullet((new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), PVector.mult(direction, 10));   
       spaceObjects.add(b); 
       prevFireTime = millis();
     }
@@ -73,12 +83,18 @@ class SpaceShip extends SpaceObject {
   }
 
   void resetShip() {
-    location.x = startLocation.x;
-    location.y = startLocation.y;
-    velocity.x = 0;
-    velocity.y = 0;
+    location = startLocation.copy();
+    velocity.set(0, 0);
+    acceleration.set(0, 0);
     dir = 0;
-    acceleration.x = 0;
-    acceleration.y = 0;
   }
+  
+  boolean isCollision() {
+  for (int i=0; i<planets.length; i++) {
+    if ((sq(planets[i].location.x-location.x)+sq(planets[i].location.y-location.y) < sq(planets[i].mass+mass))) {
+      return true;
+    }
+  }
+  return false;
+}
 }

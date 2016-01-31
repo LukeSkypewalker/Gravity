@@ -28,7 +28,7 @@ class SpaceObject {
   void update() {
     velocity.add(acceleration);
     location.add(velocity);
-    acceleration.mult(0);
+    acceleration.set(0, 0, 0);
   }
 
   void display() {
@@ -44,4 +44,8 @@ class SpaceObject {
     if (location.y < 0) location.y += height;
     if (location.y > height) location.y = 0;
   }
+  
+  boolean isCollision(){
+    return false;
+  };
 }

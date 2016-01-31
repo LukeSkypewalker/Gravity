@@ -5,11 +5,11 @@
 // Kinect ...
 
 //TODO control:
-// multiplayer
-// joystick
+// net multiplayer
 // KINECT
 // ? inertial rotation 
-// ? simultanious shooting and rotation
+
+// does multistar(couple stars in same point) crashed the code ?
 
 import java.util.*;
 
@@ -34,7 +34,7 @@ void setup() {
   ships[0].setController(new KeyboardController(ships[0]));
   ships[1] = new SpaceShip(new PVector(1600, 80));
   ships[1].setController(new KeyboardController(ships[1]));
-  ships[1].col = color (0,255,255);
+  ships[1].col = color (0, 255, 255);
   //ships[2] = new SpaceShip(new PVector(100, 800));
   //ships[2].setController(new JoystickController((ships[2]),"Controller (XBOX 360 For Windows)", "Button 0", 4, 1));  //0, 1
   //ships[2].col = color (0,255,0);
@@ -47,8 +47,8 @@ void setup() {
   //starfield = new Starfield(100);
 
   for (int i=0; i<planets.length; i++) {
-    planets[i] = new Planet(new PVector(random(width), random(height)), random(10,30));
-    planets[i].col = color (random(0,255), random(0,255), random(0,255)); 
+    planets[i] = new Planet(new PVector(random(width), random(height)), random(10, 30));
+    planets[i].col = color (random(0, 255), random(0, 255), random(0, 255));
   }
 }
 
@@ -77,17 +77,8 @@ void planets() {
 void ships() {
   for (int j=0; j<ships.length; j++) {
     if (ships[j] != null) {
-      PVector attForce = new PVector();
-      for (int i=0; i<planets.length; i++) {
-        attForce.add(planets[i].attract(ships[j]));
-      }
-      ships[j].controller.readController();
-      ships[j].applyForce(attForce);
       ships[j].update();
       ships[j].display();
-      if (isCollisionShip(ships[j])) {
-        ships[j].resetShip();
-      }  
     }
   }
 }
@@ -96,51 +87,11 @@ void bullets() {
   SpaceObject m;
   Iterator<SpaceObject> it = spaceObjects.iterator(); 
   while (it.hasNext()) {
-    m = it.next();
-    PVector attractionForce = new PVector();
-    for (int i=0; i<planets.length; i++) {
-      attractionForce.add(planets[i].attract(m));
-    }
-    m.applyForce(attractionForce);
+    m = it.next();   
     m.update();
     m.display();
-
-    if (isCollision(m)) {
+    if (m.isCollision()) {
       it.remove();
     }
   }
-}
-
-
-//TODO multistar crashs the code
-boolean isCollision(SpaceObject m) {
-  if ((m.location.x > width || m.location.x < 0) || (m.location.y > height || m.location.y < 0)) {
-    return true;
-  }
-
-  for (int i=0; i<planets.length; i++) {
-    if ((sq(planets[i].location.x-m.location.x)+sq(planets[i].location.y-m.location.y) < sq(planets[i].mass+m.mass))) {
-      return true;
-    }
-  }
-
-  for (int i=0; i<ships.length; i++) {
-    if (ships[i] != null) {
-      if ((sq(ships[i].location.x-m.location.x)+sq(ships[i].location.y-m.location.y) < sq(ships[i].mass+m.mass))) {
-        print("collision");
-        ships[i].resetShip();
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-boolean isCollisionShip(SpaceObject m) {
-  for (int i=0; i<planets.length; i++) {
-    if ((sq(planets[i].location.x-m.location.x)+sq(planets[i].location.y-m.location.y) < sq(planets[i].mass+m.mass))) {
-      return true;
-    }
-  }
-  return false;
 }
