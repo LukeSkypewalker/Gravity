@@ -1,5 +1,3 @@
-
-
 public class Sun {
  PImage img;
  int x, y;

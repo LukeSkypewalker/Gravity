@@ -3,28 +3,26 @@ class SpaceShip extends SpaceObject {
   private Controller controller;
   long prevFireTime = 0;
   long fireCooldown = 200;
-  float nullGravityModule = 1;
-  float accelerationModule = 0.05; 
+  float nullGravityModule = 0.1;
+  float accelerationModule = 0.2; 
   boolean forcage = false;
+  PVector startLocation;
   //boolean isActive = false;
 
-
-  SpaceShip() {
+  SpaceShip() {  
     location = new PVector(width/2, height/2, 0);
     velocity = new PVector();
     acceleration = new PVector();
-    controller = new Controller(this);
   }
 
   SpaceShip(PVector loc) {
-    location = loc;
+    startLocation = new PVector (loc.x, loc.y);
+    location = new PVector (loc.x, loc.y);
     velocity = new PVector();
     acceleration = new PVector();
-    controller = new Controller(this);
   }
 
   void update() {  
-    controller.readKeys();
     acceleration.mult(nullGravityModule);
     //velocity.mult(0.99);
     velocity.add(acceleration); 
@@ -36,13 +34,11 @@ class SpaceShip extends SpaceObject {
   void fire() {
     if (millis()> prevFireTime + fireCooldown) {
       PVector direction = (new PVector (cos(dir), sin(dir)));
-      SpaceObject b = new SpaceObject((new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), PVector.mult(direction, 8));   
+      SpaceObject b = new SpaceObject((new PVector(location.x, location.y)).add(PVector.mult(direction, 30)), PVector.mult(direction, 10));   
       spaceObjects.add(b); 
       prevFireTime = millis();
     }
   }
-
-
 
   void display() {
     pushMatrix();
@@ -54,7 +50,7 @@ class SpaceShip extends SpaceObject {
     noStroke();
 
     // draw the ship as a white triangle
-    fill(255, 255, 0);  
+    fill(col);  
     triangle(-10, 20, 10, 20, 0, -20); 
 
     // if the ship is accelerationerating, draw the thruster
@@ -68,7 +64,21 @@ class SpaceShip extends SpaceObject {
     popMatrix();
   }
 
-  void setaccelerationModule(float a) {
+  void setAccelerationModule(float a) {
     accelerationModule = a;
+  }
+
+  void setController(Controller controller) {
+    this.controller = controller;
+  }
+
+  void resetShip() {
+    location.x = startLocation.x;
+    location.y = startLocation.y;
+    velocity.x = 0;
+    velocity.y = 0;
+    dir = 0;
+    acceleration.x = 0;
+    acceleration.y = 0;
   }
 }

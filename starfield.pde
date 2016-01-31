@@ -13,10 +13,10 @@ private class Starfield {
   public void display() {
     strokeWeight(2);
     for (int i=0; i<count; i++) {
-      stroke(stars[i].z * 20);
+      stroke(stars[i].z * 30);
       point(stars[i].x, stars[i].y);
 
-      stars[i].x -= stars[i].z;
+      stars[i].x -= stars[i].z/5;
       if (stars[i].x < 0) {
         stars[i] = new Star (width, random(height), sqrt(random(100)));
       }

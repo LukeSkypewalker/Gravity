@@ -3,20 +3,19 @@ class Planet extends Attractor {
   boolean dragging = false; // Is the object being dragged?
   boolean rollover = false; // Is the mouse over the ellipse?
   PVector dragOffset = new PVector(0.0, 0.0);  // holds the offset for when object is clicked on
-  
+
   Planet (PVector loc, float m) {
-    location = loc;
-    mass = m;
+    super(loc,m);
     dragOffset = new PVector(0.0, 0.0);
   }
-  
+
   void display() {
     ellipseMode(CENTER);
     strokeWeight(4);
     stroke(0);
-    if (dragging) fill (50);
+    if (dragging) fill (175, 200);
     else if (rollover) fill(100);
-    else fill(175, 200);
+    else fill(col);
     ellipse(location.x, location.y, mass*2, mass*2);
   }
 
